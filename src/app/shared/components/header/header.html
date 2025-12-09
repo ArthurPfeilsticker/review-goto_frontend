@@ -1,0 +1,18 @@
+<header class="app-header">
+  <div class="logo-area">
+    <span class="logo-icon">📊</span>
+    <span class="logo-text">Review GoTo</span>
+  </div>
+
+  <nav class="user-area">
+    <div class="user-info">
+      <span class="role-badge">{{ userRole | uppercase }}</span>
+      <span class="welcome-text">Olá, {{ userName }}</span>
+    </div>
+    
+    <button class="logout-btn" (click)="onLogout()" title="Sair do Sistema">
+      <span class="icon">🚪</span>
+      <span class="text">Sair</span>
+    </button>
+  </nav>
+</header>

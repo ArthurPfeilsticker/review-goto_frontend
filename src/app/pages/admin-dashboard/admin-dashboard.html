@@ -1,0 +1,72 @@
+<app-header></app-header>
+
+<main class="content">
+  <div class="header-actions">
+    <h1>Gestão de Usuários</h1>
+    <button class="btn-primary" (click)="openCreate()">+ Novo Usuário</button>
+  </div>
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Função</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <span [class]="'badge ' + user.role">{{ user.role }}</span>
+          </td>
+          <td>
+            <button class="btn-sm edit" (click)="openEdit(user)">✏️</button>
+            <button class="btn-sm delete" (click)="deleteUser(user.id)">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showForm">
+    <div class="modal">
+      <h2>{{ isEditMode ? 'Editar' : 'Criar' }} Usuário</h2>
+      
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Nome</label>
+          <input [(ngModel)]="currentUser.name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Email</label>
+          <input [(ngModel)]="currentUser.email" name="email" required type="email">
+        </div>
+
+        <div class="form-group">
+          <label>Senha</label>
+          <input [(ngModel)]="currentUser.password" name="password" type="password" 
+                 [placeholder]="isEditMode ? 'Deixe em branco para manter' : 'Senha obrigatória'">
+        </div>
+
+        <div class="form-group">
+          <label>Função</label>
+          <select [(ngModel)]="currentUser.role" name="role">
+            <option value="user">User</option>
+            <option value="supervisor">Supervisor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" (click)="showForm = false">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
