@@ -1,0 +1,19 @@
+.filters-card {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.chart-container {
+  position: relative;
+  height: 400px; /* Importante para o Chart.js */
+  width: 100%;
+}
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #28a745;
+}

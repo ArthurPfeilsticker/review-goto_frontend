@@ -1,7 +1,66 @@
-<app-header></app-header> 
+<app-header></app-header>
 
-<main class="dashboard-content">
-  <h1>Dashboard do Supervisor</h1>
-  <p>Bem-vindo à área de supervisão.</p>
-  </main>
+<main class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Dashboard do Supervisor</h1>
+  </div>
 
+  <div class="filters-card">
+    <div class="filter-group">
+      <label>Data Início:</label>
+      <input type="date" [(ngModel)]="startDate" class="form-control">
+    </div>
+    <div class="filter-group">
+      <label>Data Fim:</label>
+      <input type="date" [(ngModel)]="endDate" class="form-control">
+    </div>
+    <div class="filter-group">
+      <label>Agente:</label>
+      <select [(ngModel)]="selectedAgent" class="form-control">
+        <option value="">Todos os Agentes</option>
+        <option *ngFor="let agent of agents" [value]="agent.id">
+          {{ agent.name }}
+        </option>
+      </select>
+    </div>
+    <button class="btn-primary" (click)="search()" [disabled]="isLoading">
+      {{ isLoading ? 'Buscando...' : 'Filtrar' }}
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p class="mt-2 text-muted">Buscando dados das avaliações...</p>
+  </div>
+
+  <div *ngIf="!isLoading && reportData.length > 0" class="fade-in">
+    
+    <div class="stats-container mb-4">
+      <div class="stat-card">
+        <h3>Média das Notas</h3>
+        <p class="stat-value" [ngClass]="{'text-success': averageGrade >= 4, 'text-warning': averageGrade < 4}">
+            {{ averageGrade | number:'1.1-2' }}
+        </p>
+      </div>
+      <div class="stat-card">
+        <h3>Total de Avaliações</h3>
+        <p class="stat-value">{{ reportData.length }}</p>
+      </div>
+    </div>
+
+    <div class="card p-3 shadow-sm">
+        <h4 class="card-title mb-3">Evolução Temporal</h4>
+        <div class="chart-container" style="position: relative; height: 400px; width: 100%">
+            <canvas #gradesChart></canvas>
+        </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && reportData.length === 0 && hasSearched" class="alert alert-info mt-4 text-center">
+    <i class="bi bi-info-circle me-2"></i>
+    Nenhuma avaliação encontrada para o período e agente selecionados.
+  </div>
+
+</main>
