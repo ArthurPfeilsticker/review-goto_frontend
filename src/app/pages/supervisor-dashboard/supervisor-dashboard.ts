@@ -42,8 +42,12 @@ export class SupervisorDashboard implements OnInit {
   }
 
   loadAgents() {
-    this.supervisorService.getAgents().subscribe(data => {
-      this.agents = data;
+    this.supervisorService.getAgents().subscribe({
+      next: (data) => {
+        this.agents = data;
+        console.log('Loaded Agents: ', data);
+        this.cdr.detectChanges();
+      }
     });
   }
 

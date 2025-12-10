@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
+  production: true,
   apiUrl: 'https://copy-relatively-realized-drainage.trycloudflare.com'
 };

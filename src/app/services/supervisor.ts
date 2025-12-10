@@ -7,11 +7,13 @@ import { environment } from '../../environments/environment';
 export class SupervisorService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
   // search agents to select
   getAgents(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/agents`);
+    return this.http.get<any[]>(`${this.apiUrl}/supervisor/agents`);
   }
 
   // search filtered grades
@@ -21,6 +23,6 @@ export class SupervisorService {
     if (endDate) params = params.set('end_date', endDate);
     if (agentId) params = params.set('agent_id', agentId);
 
-    return this.http.get<any[]>(`${this.apiUrl}/grades`, { params });
+    return this.http.get<any[]>(`${this.apiUrl}/supervisor/grades`, { params });
   }
 }
