@@ -1,1 +1,58 @@
-/* You can add global styles to this file, and also import other style files */
+/* 1. Importações Globais (Fontes e Ícones) */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+/* 2. Variáveis Globais (Design System) */
+:root {
+  /* Cores */
+  --primary: #2563eb;       /* Azul Royal */
+  --primary-hover: #1d4ed8;
+  --danger: #ef4444;        /* Vermelho Erro */
+  --text-main: #1e293b;     /* Texto Escuro */
+  --text-muted: #64748b;    /* Texto Suave */
+  --border: #e2e8f0;        /* Bordas */
+  
+  /* A COR DE FUNDO DO SITE */
+  --bg-page: #f1f5f9;       /* Cinza Suave (Slate 100) */
+  
+  --card-bg: #ffffff;       /* Branco Puro */
+}
+
+/* 3. Configuração do Corpo da Página */
+html, body {
+  height: 100%;             /* Garante que o fundo cubra 100% da altura */
+  margin: 0;
+  padding: 0;
+  
+  /* Aqui está a mágica: O fundo do "site" inteiro agora é cinza */
+  background-color: var(--bg-page); 
+  
+  /* Tipografia Global */
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-main);
+  
+  /* Suavização de fonte */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 4. Reset de Formulários para herdar a fonte Nunito */
+input, button, select, textarea {
+  font-family: inherit;
+}
+
+/* 5. Scrollbar Personalizada (Opcional, mas fica bonito) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-page); 
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; 
+}

@@ -1,66 +1,141 @@
+/* --- Variáveis (Mesmas dos Dashboards) --- */
+:host {
+  --primary: #2563eb;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --header-height: 70px;
+}
+
+/* Container Principal */
 .app-header {
   background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 0 2rem;
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  height: var(--header-height);
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03); /* Sombra muito sutil */
+  position: sticky; /* Fixa no topo se rolar a página */
+  top: 0;
+  z-index: 100;
+}
 
-  .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #333;
+.header-content {
+  max-width: 1200px; /* Alinha com o conteúdo dos dashboards */
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* --- MARCA (Lado Esquerdo) --- */
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  user-select: none;
+}
+
+/* Ícone de Barras Coloridas */
+.brand-icon {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 24px; /* Um pouco menor que no login */
+}
+
+.bar {
+  width: 6px;
+  border-radius: 3px;
+}
+
+.bar-1 { height: 14px; background-color: #8b5cf6; } /* Roxo */
+.bar-2 { height: 24px; background-color: var(--primary); } /* Azul */
+.bar-3 { height: 18px; background-color: #f97316; } /* Laranja */
+
+.brand-text {
+  font-size: 1.25rem;
+  font-weight: 800; /* Extra bold da Nunito */
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.highlight {
+  color: var(--primary);
+}
+
+/* --- ÁREA DO USUÁRIO (Lado Direito) --- */
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.greeting {
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.role-badge {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Linha divisória vertical */
+.divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--border);
+}
+
+/* Botão de Logout */
+.btn-logout {
+  background: transparent;
+  border: 1px solid transparent; /* Invisível por padrão */
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-logout i {
+  font-size: 1.1rem;
+}
+
+.btn-logout:hover {
+  background-color: #fef2f2; /* Fundo vermelho bem claro */
+  color: #ef4444;            /* Ícone e texto vermelhos */
+  border-color: #fecaca;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .logout-text {
+    display: none; /* Esconde a palavra "Sair" no mobile, deixa só o ícone */
+  }
+  
+  .user-info {
+    display: none; /* Opcional: Esconde nome no mobile para economizar espaço */
   }
 
-  .user-area {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-
-    .user-info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      line-height: 1.2;
-
-      .role-badge {
-        font-size: 0.7rem;
-        background-color: #e0f2fe;
-        color: #0369a1;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-weight: bold;
-      }
-
-      .welcome-text {
-        font-size: 0.9rem;
-        color: #555;
-      }
-    }
-
-    .logout-btn {
-      background-color: transparent;
-      border: 1px solid #fee2e2;
-      color: #ef4444;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      transition: all 0.2s;
-
-      &:hover {
-        background-color: #fee2e2;
-      }
-
-      .icon { font-size: 1.1rem; }
-    }
+  .brand-text {
+    font-size: 1.1rem;
   }
 }

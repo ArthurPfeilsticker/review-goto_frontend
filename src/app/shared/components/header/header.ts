@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importante para pipes/diretivas
-import { AuthService } from '../../../auth/auth-service'; // Ajuste o caminho se necessário
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { AuthService } from '../../../auth/auth-service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,23 +11,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.css']
 })
 export class HeaderComponent implements OnInit {
-  
-  userRole: string | null = '';
-  userName: string = 'Usuário'; // Futuramente pegaremos do token decodificado
+  userName: string = 'Usuário';
+  userRole: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
-  ngOnInit(): void {
-    // Ao iniciar o componente, descobrimos quem é o usuário
-    this.userRole = this.authService.getRole();
-    
-    // Pequena lógica visual para ficar bonito
-    if (this.userRole === 'admin') this.userName = 'Administrador';
-    if (this.userRole === 'supervisor') this.userName = 'Supervisor';
-    if (this.userRole === 'user') this.userName = 'Colaborador';
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      // Tenta pegar o nome salvo ou do token (ajuste conforme onde você salva o nome)
+      // Se não tiver salvo o nome no login, pode usar o email ou uma string padrão
+      this.userName = localStorage.getItem('user_name') || 'Colaborador';
+      this.userRole = localStorage.getItem('user_role') || '';
+    }
   }
 
-  onLogout() {
+  logout() {
     this.authService.logout();
   }
 }

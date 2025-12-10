@@ -1,81 +1,98 @@
 <app-header></app-header>
 
-<main class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Dashboard do Supervisor</h1>
+<main class="page-container">
+  
+  <div class="page-header">
+    <div>
+      <h1>Visão Geral da Operação</h1>
+      <p class="subtitle">Monitore o desempenho e a qualidade do atendimento.</p>
+    </div>
   </div>
 
-  <div class="filters-card">
+  <div class="filter-card fade-in">
     <div class="filter-group">
-      <label>Data Início:</label>
+      <label>Data Início</label>
       <input type="date" [(ngModel)]="startDate" class="form-control">
     </div>
+
     <div class="filter-group">
-      <label>Data Fim:</label>
+      <label>Data Fim</label>
       <input type="date" [(ngModel)]="endDate" class="form-control">
     </div>
-    <div class="filter-group">
-      <label>Agente:</label>
-      <select [(ngModel)]="selectedAgent" class="form-control">
-        <option value="">Todos os Agentes</option>
-        <option *ngFor="let agent of agents" [value]="agent.id">
-          {{ agent.name }}
-        </option>
-      </select>
-    </div>
-    <button class="btn-primary" (click)="search()" [disabled]="isLoading">
-      {{ isLoading ? 'Buscando...' : 'Filtrar' }}
-    </button>
-  </div>
 
-  <div *ngIf="isLoading" class="text-center my-5">
-    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-      <span class="visually-hidden">Carregando...</span>
-    </div>
-    <p class="mt-2 text-muted">Buscando dados das avaliações...</p>
-  </div>
-
-  <div *ngIf="!isLoading && reportData.length > 0" class="fade-in">
-    
-    <div class="stats-container mb-4">
-      <div class="stat-card">
-        <h3>Média das Notas</h3>
-        <p class="stat-value" [ngClass]="{'text-success': averageGrade >= 4, 'text-warning': averageGrade < 4}">
-            {{ averageGrade | number:'1.1-2' }}
-        </p>
-      </div>
-      <div class="stat-card">
-        <h3>Total de Avaliações</h3>
-        <p class="stat-value">{{ reportData.length }}</p>
-      </div>
-    </div>
-
-    <div class="card p-3 shadow-sm">
-        <h4 class="card-title mb-3">Evolução Temporal</h4>
-        <div class="chart-container" style="position: relative; height: 400px; width: 100%">
-            <canvas #gradesChart></canvas>
+    <div class="filter-group grow">
+      <label>Agente</label>
+      <div class="select-wrapper">
+        <select [(ngModel)]="selectedAgent" class="form-control">
+          <option value="">Todos os Agentes</option>
+          <option *ngFor="let agent of agents" [value]="agent.id">
+            {{ agent.name }}
+          </option>
+        </select>
         </div>
     </div>
-  </div>
 
-  <div *ngIf="!isLoading && reportData.length === 0 && hasSearched" class="alert alert-info mt-4 text-center">
-    <i class="bi bi-info-circle me-2"></i>
-    Nenhuma avaliação encontrada para o período e agente selecionados.
-  </div>
-
-  <div *ngIf="!isLoading && reportData.length > 0" class="fade-in">
-    
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3>Resumo dos Resultados</h3>
-      
-      <button class="btn btn-success" (click)="exportToExcel()">
-        <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+    <div class="filter-actions">
+      <button class="btn-primary" (click)="search()" [disabled]="isLoading">
+        <i class="bi bi-search" *ngIf="!isLoading"></i>
+        <span class="spinner-border" *ngIf="isLoading"></span>
+        {{ isLoading ? 'Buscando...' : 'Filtrar' }}
       </button>
     </div>
+  </div>
 
-    <div class="stats-container mb-4">
+  <div *ngIf="isLoading" class="loading-state fade-in">
+    <div class="spinner-large"></div>
+    <p>Processando dados...</p>
+  </div>
+
+  <div *ngIf="!isLoading && reportData.length > 0" class="results-container fade-in">
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <i class="bi bi-star-fill"></i>
+        </div>
+        <div class="stat-info">
+          <h3>Média Geral</h3>
+          <p class="stat-value" [ngClass]="{'text-success': averageGrade >= 4, 'text-warning': averageGrade < 4}">
+            {{ averageGrade | number:'1.1-1' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="stat-info">
+          <h3>Total de Avaliações</h3>
+          <p class="stat-value">{{ reportData.length }}</p>
+        </div>
+      </div>
     </div>
 
+    <div class="content-card chart-section">
+      <div class="card-header">
+        <h2>Evolução Temporal</h2>
+        
+        <button class="btn-outline" (click)="exportToExcel()">
+          <i class="bi bi-file-earmark-excel-fill"></i> Exportar Dados
+        </button>
+      </div>
+      
+      <div class="chart-wrapper">
+        <canvas #gradesChart></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && reportData.length === 0 && hasSearched" class="empty-state fade-in">
+    <div class="empty-icon">
+      <i class="bi bi-inbox"></i>
+    </div>
+    <h3>Nenhum dado encontrado</h3>
+    <p>Tente ajustar o período ou selecionar outro agente.</p>
   </div>
 
 </main>

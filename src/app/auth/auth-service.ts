@@ -21,9 +21,15 @@ export class AuthService {
   login(credentials: any) {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
-        // if the login is a success, we save the token on navigators localStorage
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('user_role', response.user.role);
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('access_token', response.access_token);
+            
+            // ADICIONE ESTAS LINHAS:
+            // Salva o nome que vem do backend para usar no Header
+            localStorage.setItem('user_name', response.user.name); 
+            
+            localStorage.setItem('user_role', response.user.role);
+        }
       })
     );
   }
