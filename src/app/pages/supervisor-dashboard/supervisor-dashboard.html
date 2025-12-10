@@ -5,7 +5,7 @@
   <div class="page-header">
     <div>
       <h1>Visão Geral da Operação</h1>
-      <p class="subtitle">Monitore o desempenho e a qualidade do atendimento.</p>
+      <p class="subtitle">Desempenho individual por agente no período.</p>
     </div>
   </div>
 
@@ -14,28 +14,23 @@
       <label>Data Início</label>
       <input type="date" [(ngModel)]="startDate" class="form-control">
     </div>
-
     <div class="filter-group">
       <label>Data Fim</label>
       <input type="date" [(ngModel)]="endDate" class="form-control">
     </div>
-
     <div class="filter-group grow">
       <label>Agente</label>
       <div class="select-wrapper">
         <select [(ngModel)]="selectedAgent" class="form-control">
-          <option value="">Todos os Agentes</option>
+          <option value="">Todos os Agentes (Lista Completa)</option>
           <option *ngFor="let agent of agents" [value]="agent.id">
             {{ agent.name }}
           </option>
         </select>
-        </div>
+      </div>
     </div>
-
     <div class="filter-actions">
       <button class="btn-primary" (click)="search()" [disabled]="isLoading">
-        <i class="bi bi-search" *ngIf="!isLoading"></i>
-        <span class="spinner-border" *ngIf="isLoading"></span>
         {{ isLoading ? 'Buscando...' : 'Filtrar' }}
       </button>
     </div>
@@ -46,53 +41,48 @@
     <p>Processando dados...</p>
   </div>
 
-  <div *ngIf="!isLoading && reportData.length > 0" class="results-container fade-in">
+  <div *ngIf="!isLoading && dashboardCards.length > 0" class="cards-list fade-in">
     
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon blue">
-          <i class="bi bi-star-fill"></i>
-        </div>
-        <div class="stat-info">
-          <h3>Média Geral</h3>
-          <p class="stat-value" [ngClass]="{'text-success': averageGrade >= 4, 'text-warning': averageGrade < 4}">
-            {{ averageGrade | number:'1.1-1' }}
-          </p>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon purple">
-          <i class="bi bi-people-fill"></i>
-        </div>
-        <div class="stat-info">
-          <h3>Total de Avaliações</h3>
-          <p class="stat-value">{{ reportData.length }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-card chart-section">
-      <div class="card-header">
-        <h2>Evolução Temporal</h2>
-        
+    <div class="list-actions mb-4 text-end">
         <button class="btn-outline" (click)="exportToExcel()">
-          <i class="bi bi-file-earmark-excel-fill"></i> Exportar Dados
+            <i class="bi bi-file-earmark-excel-fill"></i> Exportar Tudo para Excel
         </button>
-      </div>
-      
-      <div class="chart-wrapper">
-        <canvas #gradesChart></canvas>
-      </div>
     </div>
+
+    <div class="agent-card-wrapper" *ngFor="let card of dashboardCards">
+      
+      <div class="agent-header">
+        <div class="agent-identity">
+            <div class="avatar-circle">
+                {{ card.agentName.charAt(0).toUpperCase() }}
+            </div>
+            <h2>{{ card.agentName }}</h2>
+        </div>
+
+        <div class="mini-stats">
+            <div class="pill" [ngClass]="{'pill-success': card.average >= 4, 'pill-warning': card.average < 4}">
+                <i class="bi bi-star-fill"></i>
+                <span>{{ card.average | number:'1.1-1' }}</span>
+            </div>
+            <div class="pill pill-neutral">
+                <i class="bi bi-people-fill"></i>
+                <span>{{ card.total }} avaliações</span>
+            </div>
+        </div>
+      </div>
+
+      <div class="agent-chart-area">
+        <canvas #agentChart></canvas>
+      </div>
+
+    </div>
+
   </div>
 
-  <div *ngIf="!isLoading && reportData.length === 0 && hasSearched" class="empty-state fade-in">
-    <div class="empty-icon">
-      <i class="bi bi-inbox"></i>
-    </div>
-    <h3>Nenhum dado encontrado</h3>
-    <p>Tente ajustar o período ou selecionar outro agente.</p>
+  <div *ngIf="!isLoading && dashboardCards.length === 0 && hasSearched" class="empty-state fade-in">
+    <div class="empty-icon"><i class="bi bi-inbox"></i></div>
+    <h3>Nenhum resultado</h3>
+    <p>Não há avaliações para o filtro selecionado.</p>
   </div>
 
 </main>

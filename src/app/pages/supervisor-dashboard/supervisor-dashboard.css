@@ -123,6 +123,116 @@
   box-shadow: none;
 }
 
+/* ... (Mantenha as variáveis e estilos gerais de Header e Filter Card que já fizemos) ... */
+
+/* --- LISTA DE CARTÕES --- */
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Espaço entre um agente e outro */
+  padding-bottom: 40px;
+}
+
+.list-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+/* O Cartão do Agente */
+.agent-card-wrapper {
+  background: var(--card-bg);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+  padding: 30px;
+  transition: transform 0.2s;
+}
+
+.agent-card-wrapper:hover {
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+
+/* Cabeçalho do Cartão */
+.agent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 20px;
+}
+
+.agent-identity {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Avatar com a inicial do nome */
+.avatar-circle {
+    width: 48px;
+    height: 48px;
+    background-color: #dbeafe; /* Azul claro */
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.agent-identity h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+/* Pills (Mini KPIs) */
+.mini-stats {
+    display: flex;
+    gap: 12px;
+}
+
+.pill {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pill i { font-size: 1rem; }
+
+.pill-success { background-color: #dcfce7; color: #15803d; }
+.pill-warning { background-color: #fef3c7; color: #b45309; }
+.pill-neutral { background-color: #f1f5f9; color: var(--text-muted); }
+
+/* Gráfico */
+.agent-chart-area {
+    position: relative;
+    height: 300px; /* Altura fixa para o gráfico */
+    width: 100%;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .agent-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .mini-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
 /* --- KPIs (Stats) --- */
 .stats-grid {
   display: grid;
