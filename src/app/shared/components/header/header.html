@@ -1,18 +1,30 @@
 <header class="app-header">
-  <div class="logo-area">
-    <span class="logo-icon">📊</span>
-    <span class="logo-text">Review GoTo</span>
-  </div>
-
-  <nav class="user-area">
-    <div class="user-info">
-      <span class="role-badge">{{ userRole | uppercase }}</span>
-      <span class="welcome-text">Olá, {{ userName }}</span>
-    </div>
+  <div class="header-content">
     
-    <button class="logout-btn" (click)="onLogout()" title="Sair do Sistema">
-      <span class="icon">🚪</span>
-      <span class="text">Sair</span>
-    </button>
-  </nav>
+    <div class="brand-area">
+      <div class="brand-icon">
+        <span class="bar bar-1"></span>
+        <span class="bar bar-2"></span>
+        <span class="bar bar-3"></span>
+      </div>
+      <span class="brand-text">Review <span class="highlight">GoTo</span></span>
+    </div>
+
+    <div class="user-area">
+      <div class="user-info">
+        <span class="greeting">Olá, <strong>{{ userName }}</strong></span>
+        <span class="role-badge" *ngIf="userRole">
+          {{ userRole === 'admin' ? 'Administrador' : (userRole === 'supervisor' ? 'Supervisor' : 'Agente') }}
+        </span>
+      </div>
+      
+      <div class="divider"></div>
+
+      <button class="btn-logout" (click)="logout()" title="Sair do sistema">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="logout-text">Sair</span>
+      </button>
+    </div>
+
+  </div>
 </header>

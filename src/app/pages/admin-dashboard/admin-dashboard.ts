@@ -14,7 +14,7 @@ import { UserService } from '../../services/user';
 export class AdminDashboard implements OnInit {
   users: any[] = [];
   
-  // Form control
+  // Controle do Modal
   showForm = false;
   isEditMode = false;
   currentUser: any = { name: '', email: '', password: '', role: 'user' };
@@ -22,7 +22,7 @@ export class AdminDashboard implements OnInit {
   constructor(
     private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -34,32 +34,19 @@ export class AdminDashboard implements OnInit {
   loadUsers() {
     this.userService.getUsers().subscribe({
       next: (data) => {
-        // defining weight to roles
-        const rolePriority: { [key: string]: number } = {
-          'admin': 1,
-          'supervisor': 2,
-          'user': 3
-        };
-
-        // put in order
+        // Ordenação: Admin > Supervisor > User, depois Alfabética
+        const rolePriority: { [key: string]: number } = { 'admin': 1, 'supervisor': 2, 'user': 3 };
+        
         this.users = data.sort((a: any, b: any) => {
-          //gets the role weight or if unknown throw it to the end
           const priorityA = rolePriority[a.role] || 99;
           const priorityB = rolePriority[b.role] || 99;
-
-          // compares roles
-          if (priorityA < priorityB) return -1; // A vem antes
-          if (priorityA > priorityB) return 1;  // B vem antes
-
-          // if same role, compare names
-          // localeCompare makes sure acentuation is compared properly
+          if (priorityA !== priorityB) return priorityA - priorityB;
           return a.name.localeCompare(b.name);
         });
 
-        // 3. Força a atualização da tela
         this.cdr.detectChanges();
       },
-      error: (e) => console.error('Erro no navegador:', e)
+      error: (e) => console.error('Erro ao carregar:', e)
     });
   }
 
@@ -71,28 +58,24 @@ export class AdminDashboard implements OnInit {
 
   openEdit(user: any) {
     this.isEditMode = true;
-    // copies object to avoid editing table directly in real time before saving
     this.currentUser = { ...user, password: '' }; 
     this.showForm = true;
   }
 
   deleteUser(id: number) {
-    if(confirm('Tem certeza que deseja excluir?')) {
+    if(confirm('Tem certeza que deseja excluir este usuário?')) {
       this.userService.deleteUser(id).subscribe(() => this.loadUsers());
     }
   }
 
   onSubmit() {
-    if (this.isEditMode) {
-      this.userService.updateUser(this.currentUser.id, this.currentUser).subscribe(() => {
-        this.loadUsers();
-        this.showForm = false;
-      });
-    } else {
-      this.userService.createUser(this.currentUser).subscribe(() => {
-        this.loadUsers();
-        this.showForm = false;
-      });
-    }
+    const action$ = this.isEditMode 
+      ? this.userService.updateUser(this.currentUser.id, this.currentUser)
+      : this.userService.createUser(this.currentUser);
+
+    action$.subscribe(() => {
+      this.loadUsers();
+      this.showForm = false;
+    });
   }
 }
