@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../shared/components/header/header';
 import { SupervisorService } from '../../services/supervisor';
 import Chart from 'chart.js/auto';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-supervisor-dashboard',
@@ -64,7 +65,7 @@ export class SupervisorDashboard implements OnInit {
       .subscribe({
         next: (data) => {
           this.reportData = data;
-          console.log("Dados recebidos:", data); // Debug
+          console.log("Returned data:", data); // Debug
 
           this.calculateStats();
           
@@ -155,5 +156,42 @@ export class SupervisorDashboard implements OnInit {
         }
       }
     });
+  }
+
+  exportToExcel() {
+    if (this.reportData.length === 0) {
+      alert('Não há dados para exportar.');
+      return;
+    }
+
+    let agentName = "Geral" // dafeult in case selected all agents
+
+    if (this.selectedAgent && this.reportData.length > 0) {
+        agentName = this.reportData[0].agent_name;
+        agentName = agentName.replace(/\s+/g, '-');
+    }
+
+    // prepare data to excel
+    const dataToExport = this.reportData.map(item => {
+      const date = new Date(item.timestamp);
+      return {
+        'Data/Hora': `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`,
+        'Agente': item.agent_name,
+        'Nota': item.grade
+      };
+    });
+
+    // creates a worksheet from the json file
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+
+    // creates a Workbook with the sheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Avaliações');
+
+    // generate file name with current date
+    const fileName = `Relatorio_Avaliacoes_${agentName}_${new Date().toISOString().slice(0,10)}.xlsx`;
+
+    // save file
+    XLSX.writeFile(wb, fileName);
   }
 }
