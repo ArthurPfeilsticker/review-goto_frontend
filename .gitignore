@@ -47,6 +47,7 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 juntar_projeto.py
+projeto_completo.txt
 
 # Error LOGs
 npm-debug.log*
