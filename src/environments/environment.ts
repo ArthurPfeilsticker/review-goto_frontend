@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://copy-relatively-realized-drainage.trycloudflare.com'
+  apiUrl: 'https://artificial-rising-celebrities-freely.trycloudflare.com/'
 };
