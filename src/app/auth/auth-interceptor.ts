@@ -24,7 +24,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       
       // O PULO DO GATO: Se o erro for 401 (Token Expirado ou Inválido)
       if (error.status === 401) {
-        console.warn('Sessão expirada. Redirecionando para login...');
+        alert('Sessão expirada. Redirecionando para login...');
         
         // Limpa o lixo local
         localStorage.clear(); // Ou remova itens específicos
