@@ -33,6 +33,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         router.navigate(['/login']);
       }
 
+      else if(error.status == 400){
+        alert('Email já cadastrado!')
+      }
+
       // Repassa o erro caso o componente queira tratar algo específico
       return throwError(() => error);
     })
