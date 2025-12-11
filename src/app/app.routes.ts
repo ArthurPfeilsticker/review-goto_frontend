@@ -10,7 +10,7 @@ export const routes: Routes = [
   { 
     path: 'auth/login',
     component: Login,
-    canActivate: [guestGuard] 
+    canActivate: [guestGuard]
   },
 
   // dashboard routes
