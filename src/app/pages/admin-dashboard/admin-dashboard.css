@@ -273,6 +273,30 @@ tbody tr:hover {
   background-color: #f1f5f9;
 }
 
+/* Spinner pequeno para botões */
+.spinner-sm {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3); /* Círculo transparente */
+  border-top-color: #ffffff; /* Parte sólida branca */
+  border-radius: 50%;
+  animation: spin 0.8s infinite linear;
+  display: inline-block;
+  margin-right: 8px; /* Espaço entre o spinner e o texto */
+}
+
+/* Animação de giro (se já não tiver no arquivo) */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Ajuste opcional para desabilitar o botão visualmente */
+.btn-primary:disabled {
+  background-color: #93c5fd; /* Azul claro */
+  cursor: not-allowed;
+  transform: none !important; /* Remove efeito de clique */
+}
+
 /* Responsividade */
 @media (max-width: 600px) {
   .page-header {
