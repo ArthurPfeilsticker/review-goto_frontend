@@ -13,6 +13,8 @@ import { UserService } from '../../services/user';
 })
 export class AdminDashboard implements OnInit {
   users: any[] = [];
+
+  isSaving = false;
   
   // Controle do Modal
   showForm = false;
@@ -69,13 +71,23 @@ export class AdminDashboard implements OnInit {
   }
 
   onSubmit() {
+    this.isSaving = true; // 1. Bloqueia o botão e mostra o spinner
+
     const action$ = this.isEditMode 
       ? this.userService.updateUser(this.currentUser.id, this.currentUser)
       : this.userService.createUser(this.currentUser);
 
-    action$.subscribe(() => {
-      this.loadUsers();
-      this.showForm = false;
+    action$.subscribe({
+      next: () => {
+        this.loadUsers();
+        this.showForm = false;
+        this.isSaving = false; // 2. Libera em caso de sucesso
+      },
+      error: (err) => {
+        console.error('Erro ao salvar:', err);
+        alert('Ocorreu um erro ao salvar o usuário.');
+        this.isSaving = false; // 3. Libera também em caso de erro!
+      }
     });
   }
 }

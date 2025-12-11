@@ -91,7 +91,10 @@
 
         <div class="modal-footer">
           <button type="button" class="btn-secondary" (click)="showForm = false">Cancelar</button>
-          <button type="submit" class="btn-primary">Salvar Dados</button>
+          <button type="submit" class="btn-primary" [disabled]="isSaving">
+            <span *ngIf="isSaving" class="spinner-sm"></span>
+            {{ isSaving ? 'Salvando...' : 'Salvar Dados' }}
+          </button>
         </div>
       </form>
     </div>
