@@ -24,13 +24,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       
       // O PULO DO GATO: Se o erro for 401 (Token Expirado ou Inválido)
       if (error.status === 401) {
-        alert('Sessão expirada. Redirecionando para login...');
-        
-        // Limpa o lixo local
-        localStorage.clear(); // Ou remova itens específicos
+        if (!req.url.includes('/login')){
+          alert('Sessão expirada. Redirecionando para login...');
 
-        // Manda para o login
-        router.navigate(['/login']);
+          // Limpa o lixo local
+          localStorage.clear();
+
+          // Manda para o login
+          router.navigate(['/login']);
+        }
       }
 
       else if(error.status == 400){
