@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://analyze-dolls-sea-everything.trycloudflare.com'
+  apiUrl: 'https://dating-kitchen-elect-backing.trycloudflare.com'
 };
