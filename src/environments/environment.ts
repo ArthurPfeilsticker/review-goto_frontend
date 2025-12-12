@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://dating-kitchen-elect-backing.trycloudflare.com'
+  apiUrl: 'https://wise-docs-whether-desire.trycloudflare.com'
 };
